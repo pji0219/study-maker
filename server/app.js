@@ -2,14 +2,14 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
-import { connectDB } from './db/database.js';
+import { connectDB } from './model/database.js';
 import { config } from './config.js';
 
 const app = express();
 
 const corsOption = {
   origin: config.cors.allowOrign,
-  optionSuccessStatus: 200,
+  optionsSuccessStatus: 200,
 };
 
 app.use(express.json());
@@ -26,6 +26,7 @@ app.use((error, req, res, next) => {
   res.sendStatus(500);
 });
 
+// DB 연결 후 서버 시작
 connectDB()
   .then(() => {
     console.log('mongoDB connected!');
