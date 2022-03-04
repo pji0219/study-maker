@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import { connectDB } from './model/database.js';
 import { config } from './config.js';
+import articleRouter from './router/article.js';
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(express.json());
 app.use(cors(corsOption));
 app.use(helmet());
 app.use(morgan('tiny'));
+
+app.use('/article', articleRouter);
 
 app.use((req, res, next) => {
   res.sendStatus(404);
