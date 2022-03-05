@@ -4,25 +4,25 @@ import * as articleModel from '../model/article.js';
 export async function getArticles(req, res) {
   const username = req.query.username;
 
-  const data = await (username
+  const articles = await (username
     ? articleModel.getAllByUsername(username)
     : articleModel.getAll());
 
-  res.status(200).json(data);
+  res.status(200).json(articles);
 }
 
 // id로 해당 게시글 찾음(게시글 디테일 구현하는데 이용)
 export async function getArticleDetail(req, res) {
   const id = req.param.id;
-  const data = await articleModel.getById(id);
+  const article = await articleModel.getById(id);
 
-  res.status(200).json(data);
+  res.status(200).json(article);
 }
 
 // 게시글 생성
 export async function createArticle(req, res) {
   const { title, text } = req.body;
-  const article = await articleModel.create(title, text);
+  const article = await articleModel.create(title, text, req.userId);
 
   res.status(201).json(article);
 }
@@ -50,4 +50,18 @@ export async function updateArticle(req, res) {
 }
 
 // 게시글 삭제
-export async function removeArticle(req, res) {}
+export async function removeArticle(req, res) {
+  const id = req.params.id;
+  const article = await articleModel.getById(id);
+
+  if (!article) {
+    return res.sendStatus(404);
+  }
+
+  if (article.userId !== req.userId) {
+    return res.sendStatus(403);
+  }
+
+  await articleModel.remove(id);
+  res.sendStatus(204);
+}
