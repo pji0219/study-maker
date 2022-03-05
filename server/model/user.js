@@ -5,19 +5,11 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-  },
-  email: {
-    type: String,
-    required: true,
     unique: true,
   },
   password: {
     type: String,
     required: true,
-  },
-  register_date: {
-    type: Date,
-    default: moment().format('YY-M-D h:m:s'),
   },
   article: [
     {
@@ -40,3 +32,15 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
+
+export async function findByUsername(username) {
+  return User.findOne({ username });
+}
+
+export async function findById(id) {
+  return User.findById(id);
+}
+
+export async function createUser(user) {
+  return new User(user).save().then((data) => data.id);
+}
