@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import moment from 'moment';
+import User, * as userModel from './user.js';
 
 const articleSchema = new mongoose.Schema(
   {
@@ -15,6 +16,10 @@ const articleSchema = new mongoose.Schema(
       type: String,
       default: moment().format('YY MM DD h:mm:ss'),
     },
+    username: {
+      type: String,
+      required: true,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -29,19 +34,8 @@ const articleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// 사용 안 할수도 있어서 일단 여기에 둠
-// views: {
-//   type: Number,
-//   글을 작성할 때 처음 작성한 사람도 조회수에 포함 되서 그것을 빼주기 위해서 -2
-//   default: -2,
-// },
-
-// username: {
-//   type: String,
-//   required: true,
-// },
-
 const Article = mongoose.model('Article', articleSchema);
+export default Article;
 
 export async function getAll() {
   // 제일 마지막에 작성된거부터 순서대로 정렬해서 게시글 전부 찾아옴(최신 순으로)
@@ -56,12 +50,26 @@ export async function getById(id) {
   Article.findById(id);
 }
 
-// 추후에 userId를 파라미터로 받아오는 식으로 구현 해야될수도 있음
-export async function create(text, title) {
-  return Article.create({
-    text,
-    title,
+export async function create(text, title, userId) {
+  // userId로 User컬렉션에서 name과 username을 받아온 다음 게시글을 만들때 같이 넣어줌
+  const newArticle = userModel.findById(userId).then((user) =>
+    new Article({
+      title,
+      text,
+      userId,
+      username: user.username,
+      data: moment().format('YY MM DD hh:mm:ss'),
+    }).save()
+  );
+
+  // User 컬렉션에서 userId로 작성자를 찾은 뒤 작성한 게시글을 연결(해당 작성자가 쓴 게시글들을 구분 하기 위해)
+  await User.findByIdAndUpdate(userId, {
+    $push: {
+      article: newArticle._id,
+    },
   });
+
+  return newArticle;
 }
 
 export async function update(id, text) {

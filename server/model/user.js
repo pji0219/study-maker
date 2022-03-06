@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import moment from 'moment';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -32,6 +31,7 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
+export default User;
 
 export async function findByUsername(username) {
   return User.findOne({ username });
@@ -42,5 +42,5 @@ export async function findById(id) {
 }
 
 export async function createUser(user) {
-  return new User(user).save().then((data) => data.id);
+  return new User(user).save().then((data) => data._id);
 }
