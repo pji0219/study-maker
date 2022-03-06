@@ -34,7 +34,7 @@ export async function updateArticle(req, res) {
 
   // 게시글을 수정하기 전에 작성자와 요청자의 id가 일치 하는지 확인 하기 위한 로직들
   // 먼저 게시글 데이터에 있는 작성자 id를 가져 오기 위해서 해당 게시글이 있는지부터 확인
-  const article = await articleModel.getById();
+  const article = await articleModel.getById(id);
   if (!article) {
     return res.sendStatus(404);
   }

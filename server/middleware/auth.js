@@ -30,7 +30,7 @@ export function isAuth(req, res, next) {
     }
 
     // DB에 사용자가 있으면 사용자의 아이디를 req에 userId로 추가
-    req.userId = user.id;
+    req.userId = user._id;
 
     req.token = token;
 

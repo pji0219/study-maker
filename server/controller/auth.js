@@ -40,7 +40,7 @@ export async function login(req, res) {
       .json({ msg: '유효하지 않은 아이디 또는 비밀번호 입니다.' });
   }
 
-  const token = createToken(user.id);
+  const token = createToken(user._id);
   res.status(200).json({ token, username });
 }
 
