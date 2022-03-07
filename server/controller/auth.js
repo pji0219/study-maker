@@ -10,7 +10,9 @@ export async function signup(req, res) {
 
   const found = await userModel.findByUsername(username);
   if (found) {
-    return res.status(409).json({ msg: `${username} 이미 가입된 id 입니다.` });
+    return res
+      .status(409)
+      .json({ msg: `${username}는 이미 가입된 id 입니다.` });
   }
 
   let userId;

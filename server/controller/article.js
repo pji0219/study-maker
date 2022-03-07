@@ -13,7 +13,7 @@ export async function getArticles(req, res) {
 
 // id로 해당 게시글 찾음(게시글 디테일 구현하는데 이용)
 export async function getArticleDetail(req, res) {
-  const id = req.param.id;
+  const id = req.params.id;
   const article = await articleModel.getById(id);
 
   res.status(200).json(article);
@@ -40,7 +40,8 @@ export async function updateArticle(req, res) {
   }
 
   // 게시글 작성자 id와 요청 id가 다르면 권한이 없으므로 403코드
-  if (article.userId !== req.userId) {
+  // userId가 오브젝트 형식이라서 서로 같은데도 다르다고 나와서 403으로 응답 되므로 string형식으로 바꿔줌
+  if (article.userId.toString() !== req.userId.toString()) {
     return res.sendStatus(403);
   }
 
@@ -58,7 +59,7 @@ export async function removeArticle(req, res) {
     return res.sendStatus(404);
   }
 
-  if (article.userId !== req.userId) {
+  if (article.userId.toString() !== req.userId.toString()) {
     return res.sendStatus(403);
   }
 
