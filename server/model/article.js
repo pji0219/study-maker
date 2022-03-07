@@ -47,7 +47,7 @@ export async function getAllByUsername(username) {
 }
 
 export async function getById(id) {
-  Article.findById(id);
+  return Article.findById(id);
 }
 
 export async function create(text, title, userId) {

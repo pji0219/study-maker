@@ -1,22 +1,23 @@
 import express from 'express';
 import * as articleController from '../controller/article.js';
+import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
-// TODO: 인증 미들웨어 만들어서 연결 해야됨
+
 // GET /article
 // GET /article?username=:username
-router.get('/', articleController.getArticles);
+router.get('/', isAuth, articleController.getArticles);
 
 // GET /article/:id
-router.get('/:id', articleController.getArticleDetail);
+router.get('/:id', isAuth, articleController.getArticleDetail);
 
 // POST /article
-router.post('/', articleController.createArticle);
+router.post('/', isAuth, articleController.createArticle);
 
 // PUT /article/:id
-router.put('/:id', articleController.updateArticle);
+router.put('/:id', isAuth, articleController.updateArticle);
 
 // DELETE /article/:id
-router.delete('/:id', articleController.removeArticle);
+router.delete('/:id', isAuth, articleController.removeArticle);
 
 export default router;
