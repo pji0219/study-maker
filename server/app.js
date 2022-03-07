@@ -15,7 +15,7 @@ const corsOption = {
 };
 
 app.use(express.json());
-app.use(cors(corsOption));
+app.use(cors());
 app.use(helmet());
 app.use(morgan('tiny'));
 

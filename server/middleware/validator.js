@@ -1,6 +1,6 @@
 import { validationResult } from 'express-validator';
 
-export function validate(req, res, next) {
+export const validate = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -8,4 +8,4 @@ export function validate(req, res, next) {
   }
 
   next();
-}
+};

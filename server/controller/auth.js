@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import * as userModel from '../model/user.js';
-import { config } from '../config';
+import { config } from '../config.js';
 
 // 회원가입
 export async function signup(req, res) {
@@ -13,11 +13,21 @@ export async function signup(req, res) {
     return res.status(409).json({ msg: `${username} 이미 가입된 id 입니다.` });
   }
 
-  const hashed = await bcrypt.hash(password, config.bcrypt.saltRounds);
-  const userId = await userModel.createUser({
-    username,
-    password: hashed,
-  });
+  let userId;
+  bcrypt.hash(
+    password,
+    parseInt(config.bcrypt.saltRounds),
+    async function (err, hash) {
+      if (err) {
+        console.log('암호화 에러');
+      }
+
+      userId = await userModel.createUser({
+        username,
+        password: hash,
+      });
+    }
+  );
 
   const token = createToken(userId);
   res.status(201).json({ token, username });
