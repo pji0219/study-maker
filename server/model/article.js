@@ -14,7 +14,7 @@ const articleSchema = new mongoose.Schema(
     },
     date: {
       type: String,
-      default: moment().format('YY MM DD h:mm:ss'),
+      default: moment().format('YY MM DD h:mm:ss a'),
     },
     username: {
       type: String,
@@ -24,7 +24,7 @@ const articleSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     },
-    commnet: [
+    comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment',
@@ -52,13 +52,13 @@ export async function getById(id) {
 
 export async function create(text, title, userId) {
   // userId로 User컬렉션에서 name과 username을 받아온 다음 게시글을 만들때 같이 넣어줌
-  const newArticle = userModel.findById(userId).then((user) =>
+  const newArticle = await userModel.findById(userId).then((user) =>
     new Article({
       title,
       text,
       userId,
       username: user.username,
-      data: moment().format('YY MM DD hh:mm:ss'),
+      data: moment().format('YY MM DD hh:mm:ss a'),
     }).save()
   );
 
