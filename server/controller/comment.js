@@ -9,3 +9,11 @@ export async function getAllComments(req, res) {
 
   res.status(200).json(comments);
 }
+
+export async function createComment(req, res) {
+  const articleId = req.body.articleId;
+  const text = req.body.text;
+
+  const comment = await commentModel.create(req.userId, articleId, text);
+  res.status(201).json(comment);
+}

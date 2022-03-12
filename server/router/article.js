@@ -26,4 +26,7 @@ router.delete('/:id', isAuth, articleController.removeArticle);
 // GET /article/:id/comment
 router.get('/:id/comment', isAuth, commentModel.getAllComments);
 
+// POST /article/:id/comment
+router.post('/:id/comment', isAuth, commentModel.createComment);
+
 export default router;

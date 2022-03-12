@@ -58,7 +58,7 @@ export async function create(text, title, userId) {
       text,
       userId,
       username: user.username,
-      data: moment().format('YY MM DD hh:mm:ss a'),
+      date: moment().format('YY MM DD hh:mm:ss a'),
     }).save()
   );
 
