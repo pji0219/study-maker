@@ -6,6 +6,7 @@ import { connectDB } from './model/database.js';
 import { config } from './config.js';
 import articleRouter from './router/article.js';
 import authRouter from './router/auth.js';
+import commentRouter from './router/comment.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(morgan('tiny'));
 
 app.use('/article', articleRouter);
 app.use('/auth', authRouter);
+app.use('/comment', commentRouter);
 
 app.use((req, res, next) => {
   res.sendStatus(404);

@@ -20,7 +20,7 @@ export async function getCommentsByusername(req, res) {
 
 // 댓글 생성
 export async function createComment(req, res) {
-  const articleId = req.body.articleId;
+  const articleId = req.params.id;
   const text = req.body.text;
 
   const comment = await commentModel.create(req.userId, articleId, text);
@@ -38,7 +38,7 @@ export async function updateComment(req, res) {
     return res.sendStatus(404);
   }
 
-  if ((comment.userId !== req, userId)) {
+  if (comment.userId.toString() !== req.userId.toString()) {
     return res.sendStatus(403);
   }
 
@@ -56,7 +56,7 @@ export async function deleteComment(req, res) {
     return res.sendStatus(404);
   }
 
-  if (comment.userId !== req.userId) {
+  if (comment.userId.toString() !== req.userId.toString()) {
     return res.sendStatus(403);
   }
 

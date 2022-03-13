@@ -29,7 +29,7 @@ const commentSchema = new mongoose.Schema({
 const Comment = mongoose.model('Comment', commentSchema);
 
 export async function getAll(id) {
-  // 게시글 id로 게시글을 찾은 뒤 그 게시글의 comments부분의 내용을 참조
+  // 게시글 id로 게시글을 찾은 뒤 그 게시글의 comments부분의 내용을 참조(나오게 함)
   const comment = await Article.findById(id).populate({
     path: 'comments',
   });
@@ -76,9 +76,13 @@ export async function create(userId, articleId, text) {
 }
 
 export async function update(id, text) {
-  return Comment.findByIdAndUpdate(id, { text }, { returnOriginal: false });
+  return await Comment.findByIdAndUpdate(
+    id,
+    { text },
+    { returnOriginal: false }
+  );
 }
 
 export async function remove(id) {
-  Comment.findByIdAndDelete(id);
+  return await Comment.findByIdAndDelete(id);
 }
