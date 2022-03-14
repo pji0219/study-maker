@@ -20,6 +20,10 @@ const articleSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    nickname: {
+      type: String,
+      required: true,
+    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -50,7 +54,7 @@ export async function getById(id) {
   return Article.findById(id);
 }
 
-export async function create(text, title, userId) {
+export async function create(title, text, userId) {
   // userId로 User컬렉션에서 name과 username을 받아온 다음 게시글을 만들때 같이 넣어줌
   const newArticle = await userModel.findById(userId).then((user) =>
     new Article({
@@ -58,6 +62,7 @@ export async function create(text, title, userId) {
       text,
       userId,
       username: user.username,
+      nickname: user.nickname,
       date: moment().format('YY MM DD hh:mm:ss a'),
     }).save()
   );

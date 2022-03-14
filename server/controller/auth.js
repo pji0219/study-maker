@@ -6,7 +6,7 @@ import { config } from '../config.js';
 
 // 회원가입
 export async function signup(req, res) {
-  const { username, password } = req.body;
+  const { username, password, nickname } = req.body;
 
   const found = await userModel.findByUsername(username);
   if (found) {
@@ -27,12 +27,13 @@ export async function signup(req, res) {
       userId = await userModel.createUser({
         username,
         password: hash,
+        nickname,
       });
     }
   );
 
   const token = createToken(userId);
-  res.status(201).json({ token, username });
+  res.status(201).json({ token, username, nickname });
 }
 
 // 로그인
@@ -53,7 +54,7 @@ export async function login(req, res) {
   }
 
   const token = createToken(user._id);
-  res.status(200).json({ token, username });
+  res.status(200).json({ token, username, nickname: user.nickname });
 }
 
 // 토큰 생성

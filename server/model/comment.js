@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import moment from 'moment';
-import Article, * as articleModel from './article.js';
+import Article from './article.js';
 import User, * as userModel from './user.js';
 
 const commentSchema = new mongoose.Schema({
@@ -21,6 +21,10 @@ const commentSchema = new mongoose.Schema({
     ref: 'User',
   },
   username: {
+    type: String,
+    required: true,
+  },
+  nickname: {
     type: String,
     required: true,
   },
@@ -53,6 +57,7 @@ export async function create(userId, articleId, text) {
       userId,
       article: articleId,
       username: user.username,
+      nickname: user.nickname,
       date: moment().format('YY MM DD hh:mm:ss a'),
     }).save()
   );

@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  nickname: {
+    type: String,
+    required: true,
+  },
   article: [
     {
       type: mongoose.Schema.Types.ObjectId,
