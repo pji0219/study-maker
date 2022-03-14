@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
+import 'express-async-errors';
 import { connectDB } from './model/database.js';
 import { config } from './config.js';
 import articleRouter from './router/article.js';
