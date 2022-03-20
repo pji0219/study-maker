@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Global } from '@emotion/react';
+import { useSelector } from 'react-redux';
 
 import LoginPage from '../pages/LoginPage';
 import reset from '../css-reset/Reset';
 
 function Auth({ children }) {
-  const [user, setUser] = useState(false);
+  const { isAuth } = useSelector((state) => state.auth);
 
   return (
     <>
       <Global styles={reset} />
-      {user ? children : <LoginPage />}
+      {isAuth ? children : <LoginPage />}
     </>
   );
 }

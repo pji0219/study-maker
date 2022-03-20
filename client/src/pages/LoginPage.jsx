@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import study from '../images/study.jpg';
+import { login, signupUser } from '../redux-modules/auth';
 
 const Base = styled.div`
   width: 100vw;
@@ -84,11 +86,11 @@ const SignupCheckBox = styled.div`
     color: #fff;
   }
 `;
-const P = styled.p``;
 
 function LoginPage() {
+  const dispatch = useDispatch();
   const [signup, setSignup] = useState(false);
-  const [result, setResult] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -96,7 +98,11 @@ function LoginPage() {
   } = useForm();
 
   const onSubmit = (data) => {
-    setResult(JSON.stringify(data));
+    if (signup) {
+      dispatch(signupUser(data));
+    } else {
+      dispatch(login(data));
+    }
   };
 
   const onChange = (event) => {
@@ -115,12 +121,12 @@ function LoginPage() {
           <Input
             type="text"
             placeholder="아이디"
-            {...register('id', { required: true, minLength: 3 })}
+            {...register('username', { required: true, minLength: 3 })}
           />
-          {errors.id?.type === 'required' && (
+          {errors.username?.type === 'required' && (
             <Error>아이디는 필수 값입니다.</Error>
           )}
-          {errors.id?.type === 'minLength' && (
+          {errors.username?.type === 'minLength' && (
             <Error>아이디는 3글자 이상이어야 합니다.</Error>
           )}
           <Input
@@ -128,10 +134,10 @@ function LoginPage() {
             placeholder="비밀번호"
             {...register('password', { required: true, minLength: 5 })}
           />
-          {errors.id?.type === 'required' && (
+          {errors.password?.type === 'required' && (
             <Error>비밀번호는 필수 값입니다.</Error>
           )}
-          {errors.id?.type === 'minLength' && (
+          {errors.password?.type === 'minLength' && (
             <Error>비밀번호는 5글자 이상이어야 합니다.</Error>
           )}
           {signup && (

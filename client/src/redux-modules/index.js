@@ -1,17 +1,14 @@
 import { combineReducers } from 'redux';
-import { all, fork } from 'redux-saga/effects';
-import userReducer, { usersSaga } from './auth';
+import { all } from 'redux-saga/effects';
+
+import authReducer, { authSaga } from './auth';
 
 const rootReducer = combineReducers({
-  user: userReducer,
+  auth: authReducer,
 });
 
 export function* rootSaga() {
-  yield all([usersSaga()]);
+  yield all([authSaga()]);
 }
-
-// export function* rootSaga() {
-//   yield all([fork(usersSaga)]);
-// }
 
 export default rootReducer;
