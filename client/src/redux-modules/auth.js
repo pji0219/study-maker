@@ -18,6 +18,11 @@ const LOGIN_REQUEST_ERROR = 'LOGIN_REQUEST_ERROR';
 const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 const LOGOUT_REQUEST_SUCCESS = 'LOGOUT_REQUEST_SUCCESS';
 
+// 유저 로딩
+const USER_LOADING_REQUEST = 'USER_LOADING_REQUEST';
+const USER_LOADING_REQUEST_SUCCESS = 'USER_LOADING_REQUEST_SUCCESS';
+const USER_LOADING_REQUEST_ERROR = 'USER_LOADING_REQUEST_ERROR';
+
 // 액션 생성함수
 // 회원가입
 export const signupUser = (user) => ({
@@ -36,17 +41,22 @@ export const logout = () => ({
   type: LOGOUT_REQUEST,
 });
 
+// 유저 로딩
+export const userLoad = () => ({
+  type: USER_LOADING_REQUEST,
+});
+
 // 사가
 // axios 설정
 const config = {
-  Headers: {
+  headers: {
     'Content-Type': 'application/json',
   },
 };
 // 회원가입
-const registerAPI = (req) => {
-  const res = axios
-    .post(`${configs.server.url}/auth/signup`, req, config) //
+const registerAPI = async (req) => {
+  const res = await axios
+    .post(`${configs.server.url}/auth/signup`, req, config)
     .then((res) => res.data);
 
   return res;
@@ -55,10 +65,12 @@ const registerAPI = (req) => {
 function* registerUser(action) {
   try {
     const res = yield call(registerAPI, action.payload);
+
     yield put({
       type: REGISTER_REQUEST_SUCCESS,
       payload: res,
     });
+
     yield put(alert('회원가입이 완료 되었습니다.'));
   } catch (err) {
     yield put({
@@ -69,18 +81,18 @@ function* registerUser(action) {
 }
 
 // 로그인
-const loginAPI = (req) => {
-  const res = axios
-    .post(`${configs.server.url}/auth/login`, req, config) //
+const loginAPI = async (req) => {
+  const res = await axios
+    .post(`${configs.server.url}/auth/login`, req, config)
     .then((res) => res.data);
 
   return res;
 };
 
 function* loginUser(action) {
-  const res = yield call(loginAPI, action.payload);
-
   try {
+    const res = yield call(loginAPI, action.payload);
+
     yield put({
       type: LOGIN_REQUEST_SUCCESS,
       payload: res,
@@ -102,10 +114,49 @@ function* logoutUser() {
   });
 }
 
+// 유저 로딩
+/* 
+  페이지 이동이나 새로고침할 때마다 헤더에 토큰을 담아서 요청하면 서버가 토큰이 유효한지 검증하고 DB에 유저가 있는지 확인 후 
+  해당 유저의 토큰과 유저 아이디를 응답함 그것을 이용하거나 상태에 true값을 줘서 로그인 유지
+*/
+const LoadUserAPI = async () => {
+  const token = localStorage.getItem('token');
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const res = await axios
+    .get(`${configs.server.url}/auth/me`, config)
+    .then((res) => res.data);
+
+  return res;
+};
+
+function* loadUser() {
+  try {
+    const res = yield call(LoadUserAPI);
+
+    yield put({
+      type: USER_LOADING_REQUEST_SUCCESS,
+      payload: res,
+    });
+  } catch (err) {
+    yield put({
+      type: USER_LOADING_REQUEST_ERROR,
+      payload: err.response,
+    });
+  }
+}
+
 export function* authSaga() {
   yield takeEvery(REGISTER_REQUEST, registerUser);
   yield takeEvery(LOGIN_REQUEST, loginUser);
   yield takeEvery(LOGOUT_REQUEST, logoutUser);
+  yield takeEvery(USER_LOADING_REQUEST, loadUser);
 }
 
 // 리듀서
@@ -121,8 +172,10 @@ export default function authReducer(state = initialState, action) {
     case REGISTER_REQUEST:
     case LOGIN_REQUEST:
     case LOGOUT_REQUEST:
+    case USER_LOADING_REQUEST:
       return {
         ...state,
+        errorMsg: null,
       };
     case REGISTER_REQUEST_SUCCESS:
     case LOGIN_REQUEST_SUCCESS:
@@ -136,6 +189,7 @@ export default function authReducer(state = initialState, action) {
       };
     case REGISTER_REQUEST_ERROR:
     case LOGIN_REQUEST_ERROR:
+    case USER_LOADING_REQUEST_ERROR:
       return {
         ...state,
         errorMsg: action.payload.data.msg,
@@ -147,6 +201,14 @@ export default function authReducer(state = initialState, action) {
         isAuth: false,
         username: null,
         nickname: null,
+        errorMsg: null,
+      };
+    case USER_LOADING_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isAuth: true,
+        username: action.payload.username,
+        nickname: action.payload.nickname,
         errorMsg: null,
       };
     default:

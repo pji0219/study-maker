@@ -72,5 +72,11 @@ export async function me(req, res) {
     return res.status(404).json({ msg: 'User not found' });
   }
 
-  res.status(200).json({ token: req.token, username: user.username });
+  res
+    .status(200)
+    .json({
+      token: req.token,
+      username: user.username,
+      nickname: user.nickname,
+    });
 }
