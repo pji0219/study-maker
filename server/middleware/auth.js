@@ -30,8 +30,8 @@ export function isAuth(req, res, next) {
     }
 
     // DB에 사용자가 있으면 사용자의 아이디를 req에 userId로 추가
-    req.userId = user._id;
-    req.token = token;
+    req.userId = user._id; // 다른 미들웨어에서도 계속해서 사용해야 되는 것이라면 이렇게 req.customData로 등록 되는 것임
+    req.token = token; // me controller에 사용하기 위함
 
     next();
   });

@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import 'express-async-errors';
 import { validate } from '../middleware/validator.js';
 import * as authController from '../controller/auth.js';
+import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -37,5 +38,9 @@ router.post('/signup', validateSignup, authController.signup);
 
 // POST /auth/login
 router.post('/login', validateLogin, authController.login);
+
+// GET /auth/me
+// 클라이언트가 페이지 이동이나 새로고침할 때 요청하면 토큰이 유효한지 검증 후사용자 있는지 확인 후 로그인 유지
+router.get('/me', isAuth, authController.me);
 
 export default router;

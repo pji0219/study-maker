@@ -63,3 +63,14 @@ function createToken(id) {
     expiresIn: config.jwt.expireInSec,
   });
 }
+
+// 클라이언트가 페이지 이동이나 새로고침할 때 요청하면 사용자 있는지 확인 후 로그인 유지
+export async function me(req, res) {
+  const user = await userModel.findById(req.userId);
+
+  if (!user) {
+    return res.status(404).json({ msg: 'User not found' });
+  }
+
+  res.status(200).json({ token: req.token, username: user.username });
+}
