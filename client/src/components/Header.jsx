@@ -35,7 +35,8 @@ const Menu = styled.li`
 
 const MenuButton = styled.button`
   font-size: 15px;
-  color: ${({ active }) => (active ? '#535353' : '#7e7e7e')};
+  font-weight: 550;
+  color: ${({ active }) => (active ? '#6666ff' : '#7e7e7e')};
   cursor: pointer;
   border: none;
   background: none;
