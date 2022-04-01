@@ -145,6 +145,7 @@ function* postArticle(action) {
       yield: POST_ARTICLE_REQUEST_ERROR,
       payload: err.response.data.msg,
     });
+    yield put(alert('게시물 생성에 실패하였습니다.'));
   }
 }
 
@@ -170,6 +171,7 @@ function* putArticle(action) {
       type: PUT_ARTICLE_REQUEST_ERROR,
       payload: err.response.data.msg,
     });
+    yield put(alert('게시물 수정에 실패하였습니다.'));
   }
 }
 
@@ -199,11 +201,13 @@ function* deleteArticle(action) {
       type: DELETE_ARTICLE_REQUEST_ERROR,
       payload: err.response.data.msg,
     });
+    yield put(alert('게시물 삭제에 실패하였습니다.'));
   }
 }
 
 export function* articleSaga() {
   yield takeEvery(GET_ARTICLES_REQUEST, getArticles);
+  yield takeEvery(GET_ARTICLE_REQUEST, getArticle);
   yield takeEvery(POST_ARTICLE_REQUEST, postArticle);
   yield takeEvery(PUT_ARTICLE_REQUEST, putArticle);
   yield takeEvery(DELETE_ARTICLE_REQUEST, deleteArticle);
@@ -212,6 +216,7 @@ export function* articleSaga() {
 // 리듀서
 const initialState = {
   articles: [],
+  article: {},
   errorMsg: null,
 };
 
@@ -235,6 +240,25 @@ export default function articleReducer(state = initialState, action) {
       return {
         ...state,
         articles: [],
+        article: {},
+        errorMsg: action.payload,
+      };
+    case GET_ARTICLE_REQUEST:
+      return {
+        ...state,
+        article: {},
+        errorMsg: null,
+      };
+    case GET_ARTICLE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        article: { ...action.payload },
+        errorMsg: null,
+      };
+    case GET_ARTICLE_REQUEST_ERROR:
+      return {
+        ...state,
+        article: {},
         errorMsg: action.payload,
       };
     case POST_ARTICLE_REQUEST_SUCCESS:
