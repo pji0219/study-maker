@@ -21,7 +21,7 @@ export async function signup(req, res) {
     parseInt(config.bcrypt.saltRounds),
     async function (err, hash) {
       if (err) {
-        console.log('암호화 에러');
+        console.log('에러');
       }
 
       userId = await userModel.createUser({
@@ -72,11 +72,9 @@ export async function me(req, res) {
     return res.status(404).json({ msg: 'User not found' });
   }
 
-  res
-    .status(200)
-    .json({
-      token: req.token,
-      username: user.username,
-      nickname: user.nickname,
-    });
+  res.status(200).json({
+    token: req.token,
+    username: user.username,
+    nickname: user.nickname,
+  });
 }

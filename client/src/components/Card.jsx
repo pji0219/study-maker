@@ -6,7 +6,7 @@ import study from '../images/study2.jpeg';
 const Base = styled.div`
   background-color: #eeeeee;
   border-radius: 10px;
-  cursor: pointer;
+  /* cursor: pointer; */
 `;
 
 const ImgContainer = styled.div`
@@ -51,16 +51,16 @@ const InfoContainer = styled.div`
   }
 `;
 
-function Card() {
+function Card({ title, nickname, date }) {
   return (
     <Base>
       <ImgContainer>
         <img src={study} alt="study" />
       </ImgContainer>
       <InfoContainer>
-        <span className="title">서울 자바스크립트 스터디 하실분</span>
-        <span className="nickname">코린이</span>
-        <span className="time">22 03 25 1:30:21 오후</span>
+        <span className="title">{title}</span>
+        <span className="nickname">{nickname}</span>
+        <span className="time">{date}</span>
       </InfoContainer>
     </Base>
   );

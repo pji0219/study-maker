@@ -75,8 +75,10 @@ function* registerUser(action) {
   } catch (err) {
     yield put({
       type: REGISTER_REQUEST_ERROR,
-      payload: err.response,
+      payload: err.response.data.msg,
     });
+
+    yield put(alert('회원가입에 실패하였습니다..'));
   }
 }
 
@@ -100,7 +102,7 @@ function* loginUser(action) {
   } catch (err) {
     yield put({
       type: LOGIN_REQUEST_ERROR,
-      payload: err.response,
+      payload: err.response.data.msg,
     });
 
     yield put(alert('로그인에 실패하였습니다.'));
@@ -147,7 +149,7 @@ function* loadUser() {
   } catch (err) {
     yield put({
       type: USER_LOADING_REQUEST_ERROR,
-      payload: err.response,
+      payload: err.response.data.msg,
     });
   }
 }
@@ -192,7 +194,7 @@ export default function authReducer(state = initialState, action) {
     case USER_LOADING_REQUEST_ERROR:
       return {
         ...state,
-        errorMsg: action.payload.data.msg,
+        errorMsg: action.payload,
       };
     case LOGOUT_REQUEST_SUCCESS:
       localStorage.clear('token');

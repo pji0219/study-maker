@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Card from './Card';
+import { loadArticles } from '../redux-modules/article';
 
 const Base = styled.div`
   width: 100%;
@@ -20,10 +23,25 @@ const ArticleList = styled.div`
 `;
 
 function Articles() {
+  const dispatch = useDispatch();
+  const { articles } = useSelector((state) => state.article);
+
+  useEffect(() => {
+    dispatch(loadArticles());
+  }, [dispatch]);
+
   return (
     <Base>
       <ArticleList>
-        <Card />
+        {articles.map((article) => (
+          <Link to={`/article/${article._id}`} key={article._id}>
+            <Card
+              title={article.title}
+              nickname={article.nickname}
+              date={article.date}
+            />
+          </Link>
+        ))}
       </ArticleList>
     </Base>
   );

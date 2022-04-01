@@ -1,7 +1,11 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 function ArticlePage() {
-  return <div>article page</div>;
+  const params = useParams();
+  const id = params.id;
+
+  return <div>id: {id}</div>;
 }
 
 export default ArticlePage;
