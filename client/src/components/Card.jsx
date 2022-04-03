@@ -6,7 +6,6 @@ import study from '../images/study2.jpeg';
 const Base = styled.div`
   background-color: #eeeeee;
   border-radius: 10px;
-  /* cursor: pointer; */
 `;
 
 const ImgContainer = styled.div`

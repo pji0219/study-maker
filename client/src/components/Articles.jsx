@@ -9,7 +9,7 @@ import { loadArticles } from '../redux-modules/article';
 const Base = styled.div`
   width: 100%;
   height: calc(100vh - 110px);
-  margin-top: 40px;
+  margin-top: 30px;
 `;
 
 const ArticleList = styled.div`
