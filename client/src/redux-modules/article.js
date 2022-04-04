@@ -48,7 +48,6 @@ export const createArticle = (article) => ({
 });
 
 // 수정
-// meta는 리듀서에서 id를 알기 위한 용도
 export const updateArticle = (article) => ({
   type: PUT_ARTICLE_REQUEST,
   payload: article,
@@ -56,6 +55,7 @@ export const updateArticle = (article) => ({
 });
 
 // 삭제
+// meta는 리듀서에서 id를 알기 위한 용도
 export const removeArticle = (id) => ({
   type: DELETE_ARTICLE_REQUEST,
   payload: id,
