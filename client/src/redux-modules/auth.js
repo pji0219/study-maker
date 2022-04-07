@@ -71,14 +71,14 @@ function* registerUser(action) {
       payload: res,
     });
 
-    yield put(alert('회원가입이 완료 되었습니다.'));
+    yield alert('회원가입이 완료 되었습니다.');
   } catch (err) {
     yield put({
       type: REGISTER_REQUEST_ERROR,
       payload: err.response.data.msg,
     });
 
-    yield put(alert('회원가입에 실패하였습니다..'));
+    yield alert('회원가입에 실패하였습니다..');
   }
 }
 
@@ -105,7 +105,7 @@ function* loginUser(action) {
       payload: err.response.data.msg,
     });
 
-    yield put(alert('로그인에 실패하였습니다.'));
+    yield alert('로그인에 실패하였습니다.');
   }
 }
 

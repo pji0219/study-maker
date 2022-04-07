@@ -145,7 +145,7 @@ function* postArticle(action) {
       yield: POST_ARTICLE_REQUEST_ERROR,
       payload: err.response.data.msg,
     });
-    yield put(alert('게시물 생성에 실패하였습니다.'));
+    yield alert('게시물 생성에 실패하였습니다.');
   }
 }
 
@@ -171,7 +171,7 @@ function* putArticle(action) {
       type: PUT_ARTICLE_REQUEST_ERROR,
       payload: err.response.data.msg,
     });
-    yield put(alert('게시물 수정에 실패하였습니다.'));
+    yield alert('게시물 수정에 실패하였습니다.');
   }
 }
 
@@ -201,7 +201,7 @@ function* deleteArticle(action) {
       type: DELETE_ARTICLE_REQUEST_ERROR,
       payload: err.response.data.msg,
     });
-    yield put(alert('게시물 삭제에 실패하였습니다.'));
+    yield alert('게시물 삭제에 실패하였습니다.');
   }
 }
 
