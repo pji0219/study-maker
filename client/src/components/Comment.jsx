@@ -1,37 +1,55 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch } from 'react-redux';
+import { FaUserCircle, FaClock } from 'react-icons/fa';
 
 const Base = styled.li`
   width: 1200px;
   height: auto;
   color: #222;
   font-size: 17px;
+`;
 
-  &:not(:first-of-type) {
-    margin-top: 10px;
-  }
-
-  &:not(:last-of-type) {
-    border-bottom: 1px solid #6666ff;
-  }
+const Line = styled.hr`
+  width: auto;
+  margin: 0 20px;
+  color: #222;
 `;
 
 const Info = styled.div`
   width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
+  height: 30px;
+  margin-top: 10px;
+  position: relative;
 `;
 
-const Nickname = styled.span`
-  margin-top: 10px;
+const NicknameContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 0;
+`;
+
+const Nickname = styled.span``;
+
+const UserIcon = styled(FaUserCircle)`
+  font-size: 24px;
   margin-left: 20px;
 `;
 
+const DateContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 0;
+`;
+
 const Date = styled.span`
-  margin-top: 10px;
   margin-right: 20px;
+`;
+
+const ClockIcon = styled(FaClock)`
+  font-size: 24px;
 `;
 
 const Content = styled.textarea`
@@ -62,9 +80,18 @@ function Comment({ commentId, text, date, username, nickname }) {
 
   return (
     <Base>
+      <Line />
       <Info>
-        <Nickname>{nickname}</Nickname>
-        <Date>{date}</Date>
+        <NicknameContainer>
+          <UserIcon />
+          &nbsp;
+          <Nickname>{nickname}</Nickname>
+        </NicknameContainer>
+        <DateContainer>
+          <ClockIcon />
+          &nbsp;
+          <Date>{date}</Date>
+        </DateContainer>
       </Info>
       <Content value={text} ref={textRef} readOnly disabled />
     </Base>

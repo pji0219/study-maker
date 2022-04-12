@@ -102,25 +102,27 @@ function ArticleDetail({ articleId }) {
   }, [article, autoSize]);
 
   return (
-    <Base>
-      <TextEditor>
-        <TitleContainer>
-          <Title>{article.title}</Title>
-          <NicknameContainer>
-            <UserIcon />
+    <>
+      <Base>
+        <TextEditor>
+          <TitleContainer>
+            <Title>{article.title}</Title>
+            <NicknameContainer>
+              <UserIcon />
+              &nbsp;
+              <Nickname>{article.nickname}</Nickname>
+            </NicknameContainer>
+          </TitleContainer>
+          <InfoContainer>
+            <ClockIcon />
             &nbsp;
-            <Nickname>{article.nickname}</Nickname>
-          </NicknameContainer>
-        </TitleContainer>
-        <InfoContainer>
-          <ClockIcon />
-          &nbsp;
-          <Date>{article.date}</Date>
-        </InfoContainer>
-        <Content readOnly disabled value={article.text} ref={textRef} />
-      </TextEditor>
+            <Date>{article.date}</Date>
+          </InfoContainer>
+          <Content readOnly disabled value={article.text} ref={textRef} />
+        </TextEditor>
+      </Base>
       <Comments articleId={articleId} />
-    </Base>
+    </>
   );
 }
 
