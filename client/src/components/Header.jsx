@@ -33,17 +33,14 @@ const Menu = styled.li`
   }
 `;
 
-const MenuButton = styled.button`
-  font-size: 15px;
-  font-weight: 550;
-  color: ${({ active }) => (active ? '#6666ff' : '#7e7e7e')};
-  cursor: pointer;
-  border: none;
-  background: none;
-`;
-
 const Link = styled(NavLink)`
   text-decoration: none;
+`;
+
+const MenuLink = styled(NavLink)`
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 550;
 `;
 
 const TextLogo = styled.h1`
@@ -88,9 +85,14 @@ function Header() {
           </Link>
         </Menu>
         <Menu>
-          <Link to={`/mypage/${1}`}>
-            <MenuButton>마이페이지</MenuButton>
-          </Link>
+          <MenuLink
+            to={`/mypage/${1}`}
+            style={({ isActive }) => ({
+              color: isActive ? '#6666ff' : '#7e7e7e',
+            })}
+          >
+            마이페이지
+          </MenuLink>
         </Menu>
         <Menu>
           <LogoutBtn>로그아웃</LogoutBtn>
