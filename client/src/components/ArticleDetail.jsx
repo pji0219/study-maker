@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle, FaClock } from 'react-icons/fa';
@@ -17,6 +17,7 @@ const TextEditor = styled.div`
   width: 1200px;
   height: 100%;
   border-top: 1px solid #6666ff;
+  background-color: #fff;
 `;
 
 const TitleContainer = styled.div`
@@ -69,24 +70,36 @@ const Date = styled.span`
 `;
 
 const Content = styled.textarea`
-  width: auto;
-  height: fit-content;
+  width: 1100px;
+  height: auto;
   margin-top: 10px;
   margin-left: 20px;
   resize: none;
   background-color: #fff;
   color: #222;
   border: none;
-  font-size: 17px;
+  font-size: 15px;
 `;
 
 function ArticleDetail({ articleId }) {
   const dispatch = useDispatch();
   const { article } = useSelector((state) => state.article);
+  const textRef = useRef();
+
+  // 텍스트를 불러올 시에 높이 자동 조절
+  const autoSize = useCallback(() => {
+    const obj = textRef.current;
+    obj.style.height = 'auto';
+    obj.style.height = obj.scrollHeight + 'px';
+  }, []);
 
   useEffect(() => {
     dispatch(loadArticle(articleId));
   }, [dispatch, articleId]);
+
+  useEffect(() => {
+    autoSize();
+  }, [article, autoSize]);
 
   return (
     <Base>
@@ -104,7 +117,7 @@ function ArticleDetail({ articleId }) {
           &nbsp;
           <Date>{article.date}</Date>
         </InfoContainer>
-        <Content disabled>{article.text}</Content>
+        <Content readOnly disabled value={article.text} ref={textRef} />
       </TextEditor>
       <Comments articleId={articleId} />
     </Base>
