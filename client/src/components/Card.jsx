@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import study from '../images/study2.jpeg';
 
 const Base = styled.div`
-  background-color: #eeeeee;
+  background-color: #fff;
   border-radius: 10px;
 `;
 

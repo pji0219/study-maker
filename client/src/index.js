@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+import './index.css';
 import App from './App';
 import Auth from './auth/Auth';
 import rootReducer, { rootSaga } from './redux-modules';
