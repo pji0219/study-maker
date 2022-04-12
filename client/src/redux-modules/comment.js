@@ -77,6 +77,8 @@ const getCommentsAPI = async (articleId) => {
   const res = await axios
     .get(`${configs.server.url}/comment/${articleId}`, config)
     .then((res) => res.data);
+
+  return res;
 };
 
 function* getComments(action) {
