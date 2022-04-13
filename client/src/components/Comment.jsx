@@ -1,7 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { useDispatch } from 'react-redux';
-import { FaUserCircle, FaClock } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { FaUserCircle, FaClock, FaPencilAlt } from 'react-icons/fa';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { updateComment } from '../redux-modules/comment';
 
 const Base = styled.li`
   width: 1200px;
@@ -38,6 +40,35 @@ const UserIcon = styled(FaUserCircle)`
   margin-left: 20px;
 `;
 
+const UpdateContainer = styled.div`
+  position: absolute;
+  right: 250px;
+  display: flex;
+  align-items: center;
+`;
+
+const UpdateBtn = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+const UpdateIcon = styled(FaPencilAlt)`
+  font-size: 17px;
+  color: #2e7d32;
+`;
+
+const DeleteBtn = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+const DeleteIcon = styled(RiDeleteBin5Fill)`
+  font-size: 17px;
+  color: #c62828;
+`;
+
 const DateContainer = styled.div`
   position: absolute;
   display: flex;
@@ -63,13 +94,36 @@ const Content = styled.textarea`
   background-color: #fff;
   border: none;
   font-size: 15px;
+  &:focus {
+    outline: none;
+  }
 `;
 
-function Comment({ commentId, text, date, username, nickname }) {
+const SubmitContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const SummitBtn = styled.button``;
+
+const CancelBtn = styled.button``;
+
+function Comment({ commentId, text, date, author, nickname }) {
   const dispatch = useDispatch();
   const textRef = useRef();
+  const { username } = useSelector((state) => state.auth);
+  const [updateCheck, setUpdateCheck] = useState(false);
+  const [value, setValue] = useState('');
+  const [comment, setComment] = useState({
+    id: '',
+    text: '',
+  });
 
-  // 댓글 텍스트를 불러올 시에 댓글창 높이 자동 조절
+  /* 
+    댓글 텍스트를 불러올 시에 댓글창 높이 자동 조절
+    또는 댓글 수정 인풋시 댓글창 높이 자동 조절
+  */
   const autoSize = useCallback(() => {
     const obj = textRef.current;
     obj.style.height = 'auto';
@@ -80,6 +134,14 @@ function Comment({ commentId, text, date, username, nickname }) {
     autoSize();
   }, [text, autoSize]);
 
+  const onUpdateCheck = () => {
+    setUpdateCheck(true);
+  };
+
+  const onUpdateCancel = () => {
+    setUpdateCheck(false);
+  };
+
   return (
     <Base>
       <Line />
@@ -89,13 +151,45 @@ function Comment({ commentId, text, date, username, nickname }) {
           &nbsp;
           <Nickname>{nickname}</Nickname>
         </NicknameContainer>
+        {username === author && (
+          <UpdateContainer>
+            <UpdateBtn
+              onClick={() => {
+                onUpdateCheck();
+                autoSize();
+              }}
+            >
+              <UpdateIcon />
+            </UpdateBtn>
+            <DeleteBtn>
+              <DeleteIcon />
+            </DeleteBtn>
+          </UpdateContainer>
+        )}
         <DateContainer>
           <ClockIcon />
           &nbsp;
           <Date>{date}</Date>
         </DateContainer>
       </Info>
-      <Content value={text} ref={textRef} readOnly disabled />
+      {updateCheck ? (
+        <>
+          <Content defaultValue={text} ref={textRef} onChange={autoSize} />
+          <SubmitContainer>
+            <SummitBtn>수정</SummitBtn>
+            <CancelBtn
+              onClick={() => {
+                onUpdateCancel();
+                autoSize();
+              }}
+            >
+              취소
+            </CancelBtn>
+          </SubmitContainer>
+        </>
+      ) : (
+        <Content value={text} ref={textRef} readOnly disabled />
+      )}
     </Base>
   );
 }

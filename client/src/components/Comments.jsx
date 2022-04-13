@@ -30,7 +30,7 @@ function Comments({ articleId }) {
           commentId={comment._id}
           text={comment.text}
           date={comment.date}
-          username={comment.username}
+          author={comment.username}
           nickname={comment.nickname}
         />
       ))}
