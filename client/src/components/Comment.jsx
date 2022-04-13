@@ -34,6 +34,7 @@ const Nickname = styled.span``;
 
 const UserIcon = styled(FaUserCircle)`
   font-size: 24px;
+  color: #6666ff;
   margin-left: 20px;
 `;
 
@@ -50,6 +51,7 @@ const Date = styled.span`
 
 const ClockIcon = styled(FaClock)`
   font-size: 24px;
+  color: #6666ff;
 `;
 
 const Content = styled.textarea`

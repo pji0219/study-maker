@@ -16,8 +16,9 @@ const TextEditor = styled.div`
   margin: 0 auto;
   width: 1200px;
   height: 100%;
-  border-top: 1px solid #6666ff;
   background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 1px 5px 0px #9e9e9e;
 `;
 
 const TitleContainer = styled.div`
@@ -44,6 +45,7 @@ const NicknameContainer = styled.span`
 
 const UserIcon = styled(FaUserCircle)`
   font-size: 24px;
+  color: #6666ff;
 `;
 
 const Nickname = styled.span`
@@ -62,6 +64,7 @@ const InfoContainer = styled.div`
 
 const ClockIcon = styled(FaClock)`
   font-size: 24px;
+  color: #6666ff;
 `;
 
 const Date = styled.span`
@@ -102,27 +105,25 @@ function ArticleDetail({ articleId }) {
   }, [article, autoSize]);
 
   return (
-    <>
-      <Base>
-        <TextEditor>
-          <TitleContainer>
-            <Title>{article.title}</Title>
-            <NicknameContainer>
-              <UserIcon />
-              &nbsp;
-              <Nickname>{article.nickname}</Nickname>
-            </NicknameContainer>
-          </TitleContainer>
-          <InfoContainer>
-            <ClockIcon />
+    <Base>
+      <TextEditor>
+        <TitleContainer>
+          <Title>{article.title}</Title>
+          <NicknameContainer>
+            <UserIcon />
             &nbsp;
-            <Date>{article.date}</Date>
-          </InfoContainer>
-          <Content readOnly disabled value={article.text} ref={textRef} />
-        </TextEditor>
-      </Base>
-      <Comments articleId={articleId} />
-    </>
+            <Nickname>{article.nickname}</Nickname>
+          </NicknameContainer>
+        </TitleContainer>
+        <InfoContainer>
+          <ClockIcon />
+          &nbsp;
+          <Date>{article.date}</Date>
+        </InfoContainer>
+        <Content readOnly disabled value={article.text} ref={textRef} />
+        <Comments articleId={articleId} />
+      </TextEditor>
+    </Base>
   );
 }
 

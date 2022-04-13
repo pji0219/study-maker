@@ -10,6 +10,8 @@ const Base = styled.ul`
   width: 1200px;
   height: 100%;
   background-color: #fff;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 `;
 
 function Comments({ articleId }) {

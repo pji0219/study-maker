@@ -10,7 +10,7 @@ const Base = styled.header`
   height: 62px;
   z-index: 10;
   background-color: #fff;
-  box-shadow: 0px 1px 5px 0px #e0e0e0;
+  box-shadow: 0px 1px 5px 0px #bdbdbd;
 `;
 
 const MenuList = styled.ul`
