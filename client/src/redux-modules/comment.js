@@ -195,7 +195,7 @@ function* deleteComment(action) {
     const res = yield call(deleteCommentAPI, param);
 
     yield put({
-      type: DELETE_COMMENT_REQUEST,
+      type: DELETE_COMMENT_REQUEST_SUCCESS,
       payload: res,
       id,
     });
