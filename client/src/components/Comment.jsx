@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle, FaClock, FaPencilAlt } from 'react-icons/fa';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { updateComment } from '../redux-modules/comment';
+import { removeComment, updateComment } from '../redux-modules/comment';
 
 const Base = styled.li`
   width: 1200px;
@@ -94,6 +94,7 @@ const Content = styled.textarea`
   background-color: #fff;
   border: none;
   font-size: 15px;
+
   &:focus {
     outline: none;
   }
@@ -114,11 +115,9 @@ function Comment({ commentId, text, date, author, nickname }) {
   const textRef = useRef();
   const { username } = useSelector((state) => state.auth);
   const [updateCheck, setUpdateCheck] = useState(false);
-  const [value, setValue] = useState('');
-  const [comment, setComment] = useState({
-    id: '',
-    text: '',
-  });
+
+  // 댓글 수정을 위해 기존 댓글의 텍스트를 초기값으로 넣어줌
+  const [commetText, setCommentText] = useState(text);
 
   /* 
     댓글 텍스트를 불러올 시에 댓글창 높이 자동 조절
@@ -134,12 +133,36 @@ function Comment({ commentId, text, date, author, nickname }) {
     autoSize();
   }, [text, autoSize]);
 
+  // 댓글 수정 취소시 새로고침 (댓글 textarea의 자동 높이 조절을 위해서)
+  const refresh = () => {
+    window.location.reload();
+  };
+
   const onUpdateCheck = () => {
     setUpdateCheck(true);
   };
 
   const onUpdateCancel = () => {
     setUpdateCheck(false);
+  };
+
+  const onChange = (event) => {
+    const value = event.target.value;
+    setCommentText(value);
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const updatedComment = {
+      id: commentId,
+      text: commetText,
+    };
+    dispatch(updateComment(updatedComment));
+    setUpdateCheck(false);
+  };
+
+  const onDelete = () => {
+    dispatch(removeComment(commentId));
   };
 
   return (
@@ -153,15 +176,10 @@ function Comment({ commentId, text, date, author, nickname }) {
         </NicknameContainer>
         {username === author && (
           <UpdateContainer>
-            <UpdateBtn
-              onClick={() => {
-                onUpdateCheck();
-                autoSize();
-              }}
-            >
+            <UpdateBtn onClick={onUpdateCheck}>
               <UpdateIcon />
             </UpdateBtn>
-            <DeleteBtn>
+            <DeleteBtn onClick={onDelete}>
               <DeleteIcon />
             </DeleteBtn>
           </UpdateContainer>
@@ -173,20 +191,27 @@ function Comment({ commentId, text, date, author, nickname }) {
         </DateContainer>
       </Info>
       {updateCheck ? (
-        <>
-          <Content defaultValue={text} ref={textRef} onChange={autoSize} />
+        <form onSubmit={onSubmit}>
+          <Content
+            value={commetText}
+            ref={textRef}
+            onInput={autoSize}
+            onChange={onChange}
+            required
+            onClick={autoSize}
+          />
           <SubmitContainer>
-            <SummitBtn>수정</SummitBtn>
+            <SummitBtn type="submit">수정</SummitBtn>
             <CancelBtn
               onClick={() => {
                 onUpdateCancel();
-                autoSize();
+                refresh();
               }}
             >
               취소
             </CancelBtn>
           </SubmitContainer>
-        </>
+        </form>
       ) : (
         <Content value={text} ref={textRef} readOnly disabled />
       )}
