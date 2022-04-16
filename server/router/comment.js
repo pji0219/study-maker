@@ -19,7 +19,7 @@ const validateComment = [
 ];
 
 // GET /comment/:id <- id는 article id
-router.get('/:id', isAuth, commentController.getAllComments);
+router.get('/:id', commentController.getAllComments);
 
 // GET/comment?username=:username
 router.get('/', isAuth, commentController.getCommentsByusername);

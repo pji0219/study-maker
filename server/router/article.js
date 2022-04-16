@@ -30,10 +30,10 @@ const validateCreateArticle = [
 
 // GET /article
 // GET /article?username=:username
-router.get('/', isAuth, articleController.getArticles);
+router.get('/', articleController.getArticles);
 
 // GET /article/:id
-router.get('/:id', isAuth, articleController.getArticleDetail);
+router.get('/:id', articleController.getArticleDetail);
 
 // POST /article
 router.post(
