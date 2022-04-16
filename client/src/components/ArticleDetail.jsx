@@ -5,6 +5,7 @@ import { FaUserCircle, FaClock } from 'react-icons/fa';
 
 import { loadArticle } from '../redux-modules/article';
 import Comments from './Comments';
+import NewCommentForm from './NewCommentForm';
 
 const Base = styled.div`
   width: 100vw;
@@ -121,6 +122,7 @@ function ArticleDetail({ articleId }) {
           <Date>{article.date}</Date>
         </InfoContainer>
         <Content readOnly disabled value={article.text} ref={textRef} />
+        <NewCommentForm articleId={articleId} />
         <Comments articleId={articleId} />
       </TextEditor>
     </Base>
