@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import { useDispatch } from 'react-redux';
 
@@ -19,7 +19,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <BrowserRouter>
+    <>
       <Global styles={reset} />
       <Header />
       <Routes>
@@ -28,7 +28,7 @@ function App() {
         <Route path="/mypage/:username" element={<MyPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

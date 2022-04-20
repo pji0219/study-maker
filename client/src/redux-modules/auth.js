@@ -1,4 +1,4 @@
-import { call, takeEvery, put } from 'redux-saga/effects';
+import { call, takeEvery, put, getContext } from 'redux-saga/effects';
 import axios from 'axios';
 
 import { configs } from '../config';
@@ -31,9 +31,10 @@ export const signupUser = (user) => ({
 });
 
 // 로그인
-export const login = (user) => ({
+export const login = (user, nav) => ({
   type: LOGIN_REQUEST,
   payload: user,
+  nav,
 });
 
 // 로그아웃
@@ -93,12 +94,17 @@ const loginAPI = async (req) => {
 
 function* loginUser(action) {
   try {
-    const res = yield call(loginAPI, action.payload);
+    const user = action.payload;
+    const navigate = action.nav;
+
+    const res = yield call(loginAPI, user);
 
     yield put({
       type: LOGIN_REQUEST_SUCCESS,
       payload: res,
     });
+
+    navigate('/');
   } catch (err) {
     yield put({
       type: LOGIN_REQUEST_ERROR,
@@ -118,7 +124,7 @@ function* logoutUser() {
 
 // 유저 로딩
 /* 
-  페이지 이동이나 새로고침할 때마다 헤더에 토큰을 담아서 요청하면 서버가 토큰이 유효한지 검증하고 DB에 유저가 있는지 확인 후 
+  새로고침할 때마다 헤더에 토큰을 담아서 요청하면 서버가 토큰이 유효한지 검증하고 DB에 유저가 있는지 확인 후 
   해당 유저의 토큰과 유저 아이디를 응답함 그것을 이용하거나 상태에 true값을 줘서 로그인 유지
 */
 const LoadUserAPI = async () => {

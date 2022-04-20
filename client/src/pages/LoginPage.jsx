@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import study from '../images/study.jpg';
 import { login, signupUser } from '../redux-modules/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Base = styled.div`
   width: 100vw;
@@ -90,6 +91,7 @@ const SignupCheckBox = styled.div`
 function LoginPage() {
   const dispatch = useDispatch();
   const [signup, setSignup] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -101,7 +103,7 @@ function LoginPage() {
     if (signup) {
       dispatch(signupUser(data));
     } else {
-      dispatch(login(data));
+      dispatch(login(data, navigate));
     }
   };
 
