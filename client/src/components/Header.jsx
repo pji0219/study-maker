@@ -94,7 +94,7 @@ const LoginBtn = styled.button`
   width: 100px;
   height: 35px;
   margin-bottom: 20px;
-  font-size: 15px;
+  font-size: 14px;
   border: 1px solid #6666ff;
   border-radius: 30px;
   text-align: center;
@@ -158,7 +158,7 @@ function Header() {
             <LogoutBtn onClick={onLogout}>로그아웃</LogoutBtn>
           ) : (
             <BtnLink to="/login">
-              <LoginBtn>로그인</LoginBtn>
+              <LoginBtn>로그인&nbsp;/&nbsp;가입</LoginBtn>
             </BtnLink>
           )}
         </Menu>

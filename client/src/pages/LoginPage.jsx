@@ -101,7 +101,7 @@ function LoginPage() {
 
   const onSubmit = (data) => {
     if (signup) {
-      dispatch(signupUser(data));
+      dispatch(signupUser(data, navigate));
     } else {
       dispatch(login(data, navigate));
     }

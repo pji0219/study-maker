@@ -6,18 +6,12 @@ import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 
 import './index.css';
 import App from './App';
 import rootReducer, { rootSaga } from './redux-modules';
 
-const history = createBrowserHistory();
-const sagaMiddleware = createSagaMiddleware({
-  context: {
-    history,
-  },
-});
+const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootReducer,
@@ -28,7 +22,7 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter history={history}>
+    <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>

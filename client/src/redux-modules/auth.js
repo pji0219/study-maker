@@ -1,4 +1,4 @@
-import { call, takeEvery, put, getContext } from 'redux-saga/effects';
+import { call, takeEvery, put } from 'redux-saga/effects';
 import axios from 'axios';
 
 import { configs } from '../config';
@@ -24,13 +24,14 @@ const USER_LOADING_REQUEST_SUCCESS = 'USER_LOADING_REQUEST_SUCCESS';
 const USER_LOADING_REQUEST_ERROR = 'USER_LOADING_REQUEST_ERROR';
 
 // 액션 생성함수
-// 회원가입
-export const signupUser = (user) => ({
+// 회원가입, nav = useNavigate()
+export const signupUser = (user, nav) => ({
   type: REGISTER_REQUEST,
   payload: user,
+  nav,
 });
 
-// 로그인
+// 로그인 nav = useNavigate()
 export const login = (user, nav) => ({
   type: LOGIN_REQUEST,
   payload: user,
@@ -65,7 +66,11 @@ const registerAPI = async (req) => {
 
 function* registerUser(action) {
   try {
+    const navigate = action.nav;
+
     const res = yield call(registerAPI, action.payload);
+
+    yield localStorage.setItem('token', res.token);
 
     yield put({
       type: REGISTER_REQUEST_SUCCESS,
@@ -73,6 +78,8 @@ function* registerUser(action) {
     });
 
     yield alert('회원가입이 완료 되었습니다.');
+
+    yield navigate('/');
   } catch (err) {
     yield put({
       type: REGISTER_REQUEST_ERROR,
@@ -99,6 +106,8 @@ function* loginUser(action) {
 
     const res = yield call(loginAPI, user);
 
+    yield localStorage.setItem('token', res.token);
+
     yield put({
       type: LOGIN_REQUEST_SUCCESS,
       payload: res,
@@ -117,6 +126,8 @@ function* loginUser(action) {
 
 // 로그아웃
 function* logoutUser() {
+  yield localStorage.removeItem('token');
+
   yield put({
     type: LOGOUT_REQUEST_SUCCESS,
   });
@@ -187,7 +198,6 @@ export default function authReducer(state = initialState, action) {
       };
     case REGISTER_REQUEST_SUCCESS:
     case LOGIN_REQUEST_SUCCESS:
-      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isAuth: true,
@@ -203,7 +213,6 @@ export default function authReducer(state = initialState, action) {
         errorMsg: action.payload,
       };
     case LOGOUT_REQUEST_SUCCESS:
-      localStorage.clear('token');
       return {
         ...state,
         isAuth: false,
