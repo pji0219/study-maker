@@ -41,10 +41,11 @@ export const loadArticle = (id) => ({
   payload: id,
 });
 
-// 생성
-export const createArticle = (article) => ({
+// 생성 nav: useNavigate()
+export const createArticle = (article, nav) => ({
   type: POST_ARTICLE_REQUEST,
   payload: article,
+  nav,
 });
 
 // 수정
@@ -134,12 +135,15 @@ const postArticleAPI = async (article) => {
 
 function* postArticle(action) {
   try {
+    const navigate = action.nav;
     const res = yield call(postArticleAPI, action.payload);
 
     yield put({
       type: POST_ARTICLE_REQUEST_SUCCESS,
       payload: res,
     });
+
+    yield navigate(`/article/${res._id}`);
   } catch (err) {
     yield put({
       yield: POST_ARTICLE_REQUEST_ERROR,
