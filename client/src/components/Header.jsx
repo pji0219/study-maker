@@ -80,6 +80,7 @@ const WriteBtn = styled.button`
   background-color: #2e7d32;
   color: #fff;
   cursor: pointer;
+  margin-top: 14px;
 `;
 
 const BtnLink = styled(NavLink)`
@@ -149,9 +150,9 @@ function Header() {
           </Menu>
         )}
         {isAuth && (
-          <Menu>
+          <BtnLink to="/write">
             <WriteBtn>글쓰기</WriteBtn>
-          </Menu>
+          </BtnLink>
         )}
         <Menu>
           {isAuth ? (
