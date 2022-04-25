@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaUserCircle, FaClock } from 'react-icons/fa';
+import { FaUserCircle, FaClock, FaPencilAlt } from 'react-icons/fa';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
 
-import { loadArticle } from '../redux-modules/article';
+import { loadArticle, removeArticle } from '../redux-modules/article';
 import Comments from './Comments';
 import NewCommentForm from './NewCommentForm';
 
@@ -63,6 +65,39 @@ const InfoContainer = styled.div`
   color: #222;
 `;
 
+const UpdateContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const UpdateBtn = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+const UpdateIcon = styled(FaPencilAlt)`
+  font-size: 17px;
+  color: #2e7d32;
+`;
+
+const DeleteBtn = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+
+const DeleteIcon = styled(RiDeleteBin5Fill)`
+  font-size: 17px;
+  color: #c62828;
+  margin-right: 20px;
+`;
+
+const DateContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const ClockIcon = styled(FaClock)`
   font-size: 24px;
   color: #6666ff;
@@ -88,7 +123,9 @@ const Content = styled.textarea`
 function ArticleDetail({ articleId }) {
   const dispatch = useDispatch();
   const { article } = useSelector((state) => state.article);
+  const { username } = useSelector((state) => state.auth);
   const textRef = useRef();
+  const navigate = useNavigate();
 
   // 텍스트를 불러올 시에 높이 자동 조절
   const autoSize = useCallback(() => {
@@ -100,6 +137,10 @@ function ArticleDetail({ articleId }) {
   useEffect(() => {
     dispatch(loadArticle(articleId));
   }, [dispatch, articleId]);
+
+  const onDelete = () => {
+    dispatch(removeArticle(articleId, navigate));
+  };
 
   useEffect(() => {
     autoSize();
@@ -117,9 +158,21 @@ function ArticleDetail({ articleId }) {
           </NicknameContainer>
         </TitleContainer>
         <InfoContainer>
-          <ClockIcon />
-          &nbsp;
-          <Date>{article.date}</Date>
+          {username === article.username && (
+            <UpdateContainer>
+              <UpdateBtn>
+                <UpdateIcon />
+              </UpdateBtn>
+              <DeleteBtn onClick={onDelete}>
+                <DeleteIcon />
+              </DeleteBtn>
+            </UpdateContainer>
+          )}
+          <DateContainer>
+            <ClockIcon />
+            &nbsp;
+            <Date>{article.date}</Date>
+          </DateContainer>
         </InfoContainer>
         <Content readOnly disabled value={article.text} ref={textRef} />
         <NewCommentForm articleId={articleId} />

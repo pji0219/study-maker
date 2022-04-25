@@ -55,12 +55,13 @@ export const updateArticle = (article) => ({
   meta: article.id,
 });
 
-// 삭제
+// 삭제 nav: useNavigate()
 // meta는 리듀서에서 id를 알기 위한 용도
-export const removeArticle = (id) => ({
+export const removeArticle = (id, nav) => ({
   type: DELETE_ARTICLE_REQUEST,
   payload: id,
   meta: id,
+  nav,
 });
 
 // 사가
@@ -191,6 +192,7 @@ const deleteArticleAPI = async (param) => {
 function* deleteArticle(action) {
   const param = action.payload;
   const id = action.meta;
+  const navigate = action.nav;
 
   try {
     const res = yield call(deleteArticleAPI, param);
@@ -200,6 +202,8 @@ function* deleteArticle(action) {
       payload: res,
       id,
     });
+
+    yield navigate('/');
   } catch (err) {
     yield put({
       type: DELETE_ARTICLE_REQUEST_ERROR,
