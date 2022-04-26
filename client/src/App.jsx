@@ -11,6 +11,7 @@ import MyPage from './pages/MyPage';
 import LoginPage from './pages/LoginPage';
 import { userLoad } from './redux-modules/auth';
 import WritePage from './pages/WritePage';
+import UpdatePage from './pages/UpdatePage';
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
         <Route path="/mypage/:username" element={<MyPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/write" element={<WritePage />} />
+        <Route path="/update/:id" element={<UpdatePage />} />
       </Routes>
     </>
   );

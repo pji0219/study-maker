@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle, FaClock, FaPencilAlt } from 'react-icons/fa';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { loadArticle, removeArticle } from '../redux-modules/article';
 import Comments from './Comments';
@@ -160,9 +160,11 @@ function ArticleDetail({ articleId }) {
         <InfoContainer>
           {username === article.username && (
             <UpdateContainer>
-              <UpdateBtn>
-                <UpdateIcon />
-              </UpdateBtn>
+              <Link to={`/update/${articleId}`}>
+                <UpdateBtn>
+                  <UpdateIcon />
+                </UpdateBtn>
+              </Link>
               <DeleteBtn onClick={onDelete}>
                 <DeleteIcon />
               </DeleteBtn>
