@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadArticle, updateArticle } from '../redux-modules/article';
 
 const Base = styled.div`
   width: 100vw;
@@ -89,9 +91,35 @@ const BtnLink = styled(Link)`
   text-decoration: none;
 `;
 
-function UpdateArticle() {
-  const onSubmit = () => {
-    console.log('submit');
+function UpdateArticle({ articleId }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { article } = useSelector((state) => state.article);
+  const [title, setTitle] = useState(article.title);
+  const [text, setText] = useState(article.text);
+
+  useEffect(() => {
+    dispatch(loadArticle(articleId));
+  }, [dispatch, articleId]);
+
+  const onTitleChange = (event) => {
+    const value = event.target.value;
+    setTitle(value);
+  };
+
+  const onTextChange = (event) => {
+    const value = event.target.value;
+    setText(value);
+  };
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const updatedArticle = {
+      id: articleId,
+      title,
+      text,
+    };
+    dispatch(updateArticle(updatedArticle, navigate));
   };
 
   return (
@@ -99,12 +127,12 @@ function UpdateArticle() {
       <TextEditor>
         <form onSubmit={onSubmit}>
           <TitleContainer>
-            <Title />
+            <Title value={title} onChange={onTitleChange} />
           </TitleContainer>
-          <TextArea />
+          <TextArea value={text} onChange={onTextChange} />
           <SubmitBtnContainer>
-            <SubmitBtn>확인</SubmitBtn>
-            <BtnLink to="/">
+            <SubmitBtn type="submit">확인</SubmitBtn>
+            <BtnLink to={`/article/${articleId}`}>
               <CancelBtn>취소</CancelBtn>
             </BtnLink>
           </SubmitBtnContainer>

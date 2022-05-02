@@ -49,10 +49,11 @@ export const createArticle = (article, nav) => ({
 });
 
 // 수정
-export const updateArticle = (article) => ({
+export const updateArticle = (article, nav) => ({
   type: PUT_ARTICLE_REQUEST,
   payload: article,
   meta: article.id,
+  nav,
 });
 
 // 삭제 nav: useNavigate()
@@ -165,12 +166,16 @@ const putArticleAPI = async (article) => {
 
 function* putArticle(action) {
   try {
+    const navigate = action.nav;
+
     const res = yield call(putArticleAPI, action.payload);
 
     yield put({
       type: PUT_ARTICLE_REQUEST_SUCCESS,
       payload: res,
     });
+
+    yield navigate(`/article/${res._id}`);
   } catch (err) {
     yield put({
       type: PUT_ARTICLE_REQUEST_ERROR,

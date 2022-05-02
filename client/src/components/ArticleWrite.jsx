@@ -131,7 +131,7 @@ function ArticleWrite() {
           </TitleContainer>
           <TextArea value={text} onChange={onTextChange} />
           <SubmitBtnContainer>
-            <SubmitBtn>완료</SubmitBtn>
+            <SubmitBtn type="submit">완료</SubmitBtn>
             <BtnLink to="/">
               <CancelBtn>취소</CancelBtn>
             </BtnLink>
