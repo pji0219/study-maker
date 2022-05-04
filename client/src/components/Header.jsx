@@ -57,7 +57,7 @@ const TextLogo = styled.h1`
 
 const WriteBtn = styled.button`
   position: absolute;
-  top: 20px;
+  top: 34px;
   right: 130px;
   width: 100px;
   height: 35px;
@@ -68,7 +68,6 @@ const WriteBtn = styled.button`
   background-color: #2e7d32;
   color: #fff;
   cursor: pointer;
-  margin-top: 14px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: box-shadow 0.4s ease;
 
@@ -84,11 +83,11 @@ const BtnLink = styled(Link)`
 
 const LoginBtn = styled.button`
   position: absolute;
-  right: 0;
+  right: 130px;
+  bottom: 30px;
   background: none;
   width: 100px;
   height: 35px;
-  margin-bottom: 20px;
   font-size: 14px;
   border: 1px solid #6666ff;
   border-radius: 30px;
@@ -130,17 +129,20 @@ const DropdownMenu = styled.div`
   }
 
   & li {
-    border-bottom: 1px solid #dddddd;
-    margin-bottom: 10px;
     font-size: 15px;
     color: #222;
     text-align: center;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #dddddd;
+    }
   }
 `;
 
 const DropdownMenuBtn = styled.button`
   background-color: #fff;
   border-radius: 90px;
+  width: 100px;
   border: none;
   display: flex;
   justify-content: space-between;
@@ -156,10 +158,13 @@ const DropdownMenuBtn = styled.button`
 
   & > span {
     font-weight: 700;
-    vertical-align: middle;
     font-size: 14px;
     color: #222;
     margin: 0 10px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
@@ -195,7 +200,7 @@ const Logout = styled.span`
 function Header() {
   const { isAuth, nickname, username } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
   const onMenuActive = () => {
     setIsActive(!isActive);
