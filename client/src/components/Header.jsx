@@ -121,14 +121,14 @@ const DropdownMenu = styled.div`
     transform: translateY(0);
   }
 
-  & ul {
+  & .lists {
     width: auto;
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  & li {
+  & .list {
     font-size: 15px;
     color: #222;
     text-align: center;
@@ -236,13 +236,13 @@ function Header() {
                 <span>{nickname}</span>
               </DropdownMenuBtn>
               <nav className={`menu ${isActive ? 'active' : 'inactive'}`}>
-                <ul>
-                  <li>
+                <ul className="lists">
+                  <li className="list">
                     <MenuLink to={`/mypage/${username}`} onClick={onMenuActive}>
                       마이페이지
                     </MenuLink>
                   </li>
-                  <li>
+                  <li className="list">
                     <Logout onClick={onLogout}>로그아웃</Logout>
                   </li>
                 </ul>
