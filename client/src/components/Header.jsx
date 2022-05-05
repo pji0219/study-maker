@@ -11,7 +11,7 @@ const Base = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 62px;
   z-index: 10;
   background-color: #fff;
   box-shadow: 0px 1px 5px 0px #bdbdbd;
@@ -30,7 +30,7 @@ const MenuList = styled.ul`
 const Menu = styled.li`
   display: flex;
   align-items: center;
-  height: 100px;
+  height: 62px;
 
   &:not(:first-of-type) {
     margin-left: 24px;
@@ -57,7 +57,7 @@ const TextLogo = styled.h1`
 
 const WriteBtn = styled.button`
   position: absolute;
-  top: 34px;
+  top: 14px;
   right: 130px;
   width: 100px;
   height: 35px;
@@ -84,7 +84,7 @@ const BtnLink = styled(Link)`
 const LoginBtn = styled.button`
   position: absolute;
   right: 130px;
-  bottom: 30px;
+  bottom: 14px;
   background: none;
   width: 100px;
   height: 35px;
@@ -98,7 +98,7 @@ const LoginBtn = styled.button`
 
 const DropdownMenu = styled.div`
   position: absolute;
-  top: 35px;
+  top: 14px;
   right: 0;
   width: 120px;
 
