@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FaUserCircle } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Base = styled.div`
   width: 100vw;
@@ -67,11 +67,20 @@ const Tab = styled.ul`
     /* &:not(:last-of-type) {
       margin-right: 20px;
     } */
+
+    &:hover {
+      background-color: #fff;
+    }
   }
 `;
 
-function MyPage({ username }) {
-  const { nickname } = useSelector((state) => state.auth);
+function MyArticles() {
+  const { nickname, username } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const onLoadMyArticle = () => {
+    dispatch();
+  };
 
   return (
     <Base>
@@ -93,4 +102,4 @@ function MyPage({ username }) {
   );
 }
 
-export default MyPage;
+export default MyArticles;

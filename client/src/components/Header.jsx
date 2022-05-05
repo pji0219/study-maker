@@ -198,7 +198,7 @@ const Logout = styled.span`
 `;
 
 function Header() {
-  const { isAuth, nickname, username } = useSelector((state) => state.auth);
+  const { isAuth, nickname } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [isActive, setIsActive] = useState(false);
 
@@ -238,8 +238,8 @@ function Header() {
               <nav className={`menu ${isActive ? 'active' : 'inactive'}`}>
                 <ul className="lists">
                   <li className="list">
-                    <MenuLink to={`/mypage/${username}`} onClick={onMenuActive}>
-                      마이페이지
+                    <MenuLink to="/myarticle" onClick={onMenuActive}>
+                      나의 게시글
                     </MenuLink>
                   </li>
                   <li className="list">

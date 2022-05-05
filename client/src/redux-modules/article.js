@@ -4,7 +4,7 @@ import axios from 'axios';
 import { configs } from '../config';
 
 // 액션 타입
-// 게시물 조회
+// 게시물들 조회
 const GET_ARTICLES_REQUEST = ' GET_ARTICLES_REQUEST';
 const GET_ARTICLES_REQUEST_SUCCESS = ' GET_ARTICLES_REQUEST_SUCCESS';
 const GET_ARTICLES_REQUEST_ERROR = ' GET_ARTICLES_REQUEST_ERROR';
@@ -13,6 +13,11 @@ const GET_ARTICLES_REQUEST_ERROR = ' GET_ARTICLES_REQUEST_ERROR';
 const GET_ARTICLE_REQUEST = ' GET_ARTICLE_REQUEST';
 const GET_ARTICLE_REQUEST_SUCCESS = ' GET_ARTICLE_REQUEST_SUCCESS';
 const GET_ARTICLE_REQUEST_ERROR = ' GET_ARTICLE_REQUEST_ERROR';
+
+// 해당 사용자의 게시물들 조회
+const GET_USER_ARTICLES_REQUEST = 'GET_USER_ARTICLES_REQUEST';
+const GET_USER_ARTICLES_REQUEST_SUCCESS = 'GET_USER_ARTICLES_REQUEST_SUCCESS';
+const GET_USER_ARTICLES_REQUEST_ERROR = 'GET_USER_ARTICLES_REQUEST_ERROR';
 
 // 게시물 생성
 const POST_ARTICLE_REQUEST = 'POST_ARTICLE_REQUEST';
@@ -39,6 +44,12 @@ export const loadArticles = () => ({
 export const loadArticle = (id) => ({
   type: GET_ARTICLE_REQUEST,
   payload: id,
+});
+
+// 해당 사용자의 게시물들 조회
+export const loadUserArticles = (username) => ({
+  type: GET_USER_ARTICLES_REQUEST,
+  payload: username,
 });
 
 // 생성 nav: useNavigate()
@@ -125,6 +136,8 @@ function* getArticle(action) {
     });
   }
 }
+
+// 해당 사용자의 게시물들 조회
 
 // 게시물 생성
 const postArticleAPI = async (article) => {
