@@ -138,6 +138,31 @@ function* getArticle(action) {
 }
 
 // 해당 사용자의 게시물들 조회
+const getUserArticleAPI = async (username) => {
+  const res = await axios
+    .get(`${configs.server.url}/article?username=${username}`, config)
+    .then((res) => res.data);
+
+  return res;
+};
+
+function* getUserArticles(action) {
+  try {
+    const res = yield call(getArticleAPI, action.payload);
+
+    yield put({
+      type: GET_USER_ARTICLES_REQUEST,
+      payload: res,
+    });
+  } catch (err) {
+    yield put({
+      type: GET_ARTICLES_REQUEST_ERROR,
+      payload: err.response.data.msg,
+    });
+
+    yield alert('게시물 목록을 불러오는데 실패 하였습니다.');
+  }
+}
 
 // 게시물 생성
 const postArticleAPI = async (article) => {
@@ -234,6 +259,7 @@ function* deleteArticle(action) {
 export function* articleSaga() {
   yield takeEvery(GET_ARTICLES_REQUEST, getArticles);
   yield takeEvery(GET_ARTICLE_REQUEST, getArticle);
+  yield takeEvery(GET_USER_ARTICLES_REQUEST, getUserArticles);
   yield takeEvery(POST_ARTICLE_REQUEST, postArticle);
   yield takeEvery(PUT_ARTICLE_REQUEST, putArticle);
   yield takeEvery(DELETE_ARTICLE_REQUEST, deleteArticle);
@@ -243,6 +269,7 @@ export function* articleSaga() {
 const initialState = {
   articles: [],
   article: {},
+  userArticles: [],
   errorMsg: null,
 };
 
@@ -252,6 +279,7 @@ export default function articleReducer(state = initialState, action) {
     case POST_ARTICLE_REQUEST:
     case PUT_ARTICLE_REQUEST:
     case DELETE_ARTICLE_REQUEST:
+    case GET_USER_ARTICLES_REQUEST:
       return {
         ...state,
         errorMsg: null,
@@ -285,6 +313,18 @@ export default function articleReducer(state = initialState, action) {
       return {
         ...state,
         article: {},
+        errorMsg: action.payload,
+      };
+    case GET_USER_ARTICLES_REQUEST_SUCCESS:
+      return {
+        ...state,
+        userArticles: [...action.payload],
+        errorMsg: null,
+      };
+    case GET_USER_ARTICLES_REQUEST_ERROR:
+      return {
+        ...state,
+        userArticles: [],
         errorMsg: action.payload,
       };
     case POST_ARTICLE_REQUEST_SUCCESS:

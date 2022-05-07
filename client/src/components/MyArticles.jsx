@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { loadUserArticles } from '../redux-modules/article';
 
 const Base = styled.div`
   width: 100vw;
@@ -9,7 +10,7 @@ const Base = styled.div`
   margin-top: 40px;
 `;
 
-const Container = styled.ul`
+const MyArticlesContainer = styled.ul`
   margin: 0 auto;
   width: 1200px;
   height: 100%;
@@ -18,7 +19,7 @@ const Container = styled.ul`
   box-shadow: 0px 1px 5px 0px #9e9e9e;
 `;
 
-const TabContainer = styled.div`
+const TitleContainer = styled.div`
   width: auto;
   height: 60px;
   border-bottom: 1px solid #6666ff;
@@ -49,55 +50,45 @@ const Username = styled.span`
   margin-bottom: 7px;
 `;
 
-const Tab = styled.ul`
-  background-color: beige;
-  width: 500px;
-  height: 60px;
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  & > .tab {
-    background-color: brown;
-    width: 240px;
-    font-size: 24px;
-    text-align: center;
-    /* &:not(:last-of-type) {
-      margin-right: 20px;
-    } */
-
-    &:hover {
-      background-color: #fff;
-    }
-  }
+const Title = styled.span`
+  font-size: 24px;
 `;
+
+const ArticleList = styled.ul`
+  width: auto;
+  height: 92%;
+  background-color: #fff;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+`;
+
+const Article = styled.li`
+  width: 1200px;
+  height: 70px;
+  color: #222;
+  font-size: 17px;
+`;
+
+const ArticleTitle = styled.span``;
 
 function MyArticles() {
   const { nickname, username } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const onLoadMyArticle = () => {
-    dispatch();
-  };
-
   return (
     <Base>
-      <Container>
-        <TabContainer>
+      <MyArticlesContainer>
+        <TitleContainer>
           <NicknameContainer>
             <UserCircle />
             &nbsp;
             <Nickname>{nickname}</Nickname>
             <Username>({username})</Username>
           </NicknameContainer>
-          <Tab>
-            <li className="tab">내가 쓴 게시물 보기</li>
-            <li className="tab">내가 쓴 댓글 보기</li>
-          </Tab>
-        </TabContainer>
-      </Container>
+          <Title>의 게시글</Title>
+        </TitleContainer>
+        <ArticleList></ArticleList>
+      </MyArticlesContainer>
     </Base>
   );
 }
