@@ -11,7 +11,7 @@ import LoginPage from './pages/LoginPage';
 import { userLoad } from './redux-modules/auth';
 import WritePage from './pages/WritePage';
 import UpdatePage from './pages/UpdatePage';
-import MyArticle from './pages/MyArticle';
+import MyPage from './pages/MyPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/article/:id" element={<ArticlePage />} />
-        <Route path="/myarticle" element={<MyArticle />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/write" element={<WritePage />} />
         <Route path="/update/:id" element={<UpdatePage />} />

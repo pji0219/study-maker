@@ -8,11 +8,20 @@ const Base = styled.div`
   width: 100vw;
   height: calc(100vh - 180px);
   margin-top: 40px;
+  display: flex;
+  justify-content: center;
 `;
 
-const MyArticlesContainer = styled.ul`
-  margin: 0 auto;
-  width: 1200px;
+const SideMenu = styled.aside`
+  width: 200px;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 1px 5px 0px #9e9e9e;
+`;
+
+const MyArticlesContainer = styled.div`
+  width: 1000px;
   height: 100%;
   background-color: #fff;
   border-radius: 20px;
@@ -71,12 +80,13 @@ const Article = styled.li`
 
 const ArticleTitle = styled.span``;
 
-function MyArticles() {
+function MyPage() {
   const { nickname, username } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   return (
     <Base>
+      <SideMenu></SideMenu>
       <MyArticlesContainer>
         <TitleContainer>
           <NicknameContainer>
@@ -93,4 +103,4 @@ function MyArticles() {
   );
 }
 
-export default MyArticles;
+export default MyPage;
