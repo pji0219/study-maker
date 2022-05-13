@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { loadUserArticles } from '../redux-modules/article';
+import { loadCommentsByUser } from '../redux-modules/comment';
 
 const Base = styled.div`
   width: 100vw;
@@ -18,9 +20,17 @@ const SideMenu = styled.aside`
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0px 1px 5px 0px #9e9e9e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & span {
+    margin-top: 20px;
+    cursor: pointer;
+  }
 `;
 
-const MyArticlesContainer = styled.div`
+const MyPageContainer = styled.div`
   width: 1000px;
   height: 100%;
   background-color: #fff;
@@ -63,31 +73,55 @@ const Title = styled.span`
   font-size: 24px;
 `;
 
-const ArticleList = styled.ul`
-  width: auto;
+const List = styled.ul`
+  width: 1200px;
   height: 92%;
   background-color: #fff;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
 `;
 
-const Article = styled.li`
+const Item = styled.li`
   width: 1200px;
   height: 70px;
   color: #222;
   font-size: 17px;
 `;
 
-const ArticleTitle = styled.span``;
+const ItemTitle = styled.span``;
 
-function MyPage() {
+function MyPageComponent() {
   const { nickname, username } = useSelector((state) => state.auth);
+  const { userAticles } = useSelector((state) => state.article);
+  const { comments } = useSelector((state) => state.comment);
   const dispatch = useDispatch();
+  const [selectMyArticle, setSelectMyArticle] = useState(true);
+
+  useEffect(() => {
+    dispatch(loadUserArticles(username));
+  }, []);
+
+  const loadMyArticles = () => {
+    dispatch(loadUserArticles(username));
+    setSelectMyArticle(true);
+  };
+
+  const loadMyComments = () => {
+    dispatch(loadCommentsByUser(username));
+    setSelectMyArticle(false);
+  };
 
   return (
     <Base>
-      <SideMenu></SideMenu>
-      <MyArticlesContainer>
+      <SideMenu>
+        <span className="myarticle" onClick={loadMyArticles}>
+          나의 게시물
+        </span>
+        <span className="mycomment" onClick={loadMyComments}>
+          나의 댓글
+        </span>
+      </SideMenu>
+      <MyPageContainer>
         <TitleContainer>
           <NicknameContainer>
             <UserCircle />
@@ -97,10 +131,10 @@ function MyPage() {
           </NicknameContainer>
           <Title>의 게시글</Title>
         </TitleContainer>
-        <ArticleList></ArticleList>
-      </MyArticlesContainer>
+        <List></List>
+      </MyPageContainer>
     </Base>
   );
 }
 
-export default MyPage;
+export default MyPageComponent;

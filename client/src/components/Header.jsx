@@ -238,7 +238,7 @@ function Header() {
               <nav className={`menu ${isActive ? 'active' : 'inactive'}`}>
                 <ul className="lists">
                   <li className="list">
-                    <MenuLink to="/myarticle" onClick={onMenuActive}>
+                    <MenuLink to="/mypage" onClick={onMenuActive}>
                       나의 게시글
                     </MenuLink>
                   </li>
