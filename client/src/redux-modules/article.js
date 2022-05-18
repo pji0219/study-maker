@@ -148,10 +148,10 @@ const getUserArticleAPI = async (username) => {
 
 function* getUserArticles(action) {
   try {
-    const res = yield call(getArticleAPI, action.payload);
+    const res = yield call(getUserArticleAPI, action.payload);
 
     yield put({
-      type: GET_USER_ARTICLES_REQUEST,
+      type: GET_USER_ARTICLES_REQUEST_SUCCESS,
       payload: res,
     });
   } catch (err) {

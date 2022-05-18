@@ -100,7 +100,7 @@ function* getComments(action) {
 // 해당 유저의 댓글들 조회
 const getCommentsByusernameAPI = async (username) => {
   const res = await axios
-    .get(`${configs.server.url}/comment/?username=${username}`, config)
+    .get(`${configs.server.url}/comment?username=${username}`, config)
     .then((res) => res.data);
 
   return res;
